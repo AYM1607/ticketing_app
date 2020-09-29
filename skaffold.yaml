@@ -1,0 +1,23 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: aym1607/auth
+      # Path of the artifact relative to this file.
+      context: auth
+      docker:
+        # Name of the dockerfile.
+        dockerfile: Dockerfile
+      sync:
+        # Files to be synces if they change.
+        manual:
+          - src: 'src/**/*.ts'
+            # Take the path where it was found and put it there.
+            # I believe is relative to the WORKDIR of the Dockerfile.
+            dest: .
