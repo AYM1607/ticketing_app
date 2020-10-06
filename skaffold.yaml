@@ -34,3 +34,16 @@ build:
             # Take the path where it was found and put it there.
             # I believe is relative to the WORKDIR of the Dockerfile.
             dest: .
+    - image: aym1607/tickets
+      # Path of the artifact relative to this file.
+      context: tickets
+      docker:
+        # Name of the dockerfile.
+        dockerfile: Dockerfile
+      sync:
+        # Files to be synces if they change.
+        manual:
+          - src: 'src/**/*.ts'
+            # Take the path where it was found and put it there.
+            # I believe is relative to the WORKDIR of the Dockerfile.
+            dest: .
