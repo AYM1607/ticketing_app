@@ -1,13 +1,15 @@
-import request from "supertest";
-import { app } from "../app";
+import jwt from "jsonwebtoken";
 
-export const signup = async () => {
-  const email = "mariano@gmail.com";
-  const password = "123456";
-  const signupResponse = await request(app)
-    .post("/api/users/signup")
-    .send({ email, password })
-    .expect(201);
+/**
+ * Returns a cookie array containing a valid jwt of a user in a supertest cookie format.
+ */
+export const signup = () => {
+  const token = jwt.sign(
+    { id: "123456", email: "mariano@gmail.com" },
+    process.env.JWT_KEY!
+  );
+  const sessionJSON = JSON.stringify({ jwt: token });
+  const base64JSON = Buffer.from(sessionJSON).toString("base64");
 
-  return signupResponse.get("Set-Cookie");
+  return `express:sess=${base64JSON}`;
 };
