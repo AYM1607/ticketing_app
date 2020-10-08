@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 /**
  * Returns a cookie array containing a valid jwt of a user in a supertest cookie format.
  */
-export const signup = () => {
+export const getMockCookie = () => {
   const token = jwt.sign(
     { id: "123456", email: "mariano@gmail.com" },
     process.env.JWT_KEY!
