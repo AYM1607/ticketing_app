@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@aymticketing/common@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@aymticketing/common/-/common-1.0.5.tgz#05a4636955bd04b163700cbc2c1f1ba49c555a0f"
-  integrity sha512-Jatto26+swERepP6KYgtA6UjtAqS6lRMR7RWLTp+8w5GyK7nvg79hPW6IKrJAr9RVbxLrsl+n+qoqlkWTv/fNA==
+"@aymticketing/common@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@aymticketing/common/-/common-1.0.6.tgz#d367842d86f6510a77d20212fc5dc509dbd23c4b"
+  integrity sha512-zLx2ZwzlrsBmqzIWMze8DR5LQfocLdwcRQdPTbVi40CvH6/u0937zR1iCXZamGamk+XCz4fXZktBW0dIWliWZQ==
   dependencies:
     "@types/cookie-session" "^2.0.41"
     "@types/express" "^4.17.8"
