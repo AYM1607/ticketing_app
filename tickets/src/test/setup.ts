@@ -4,6 +4,8 @@ import { app } from "../app";
 
 let mongo: any;
 
+jest.mock("../nats_wrapper");
+
 beforeAll(async () => {
   // TODO: find a better way of setting this env.
   process.env.JWT_KEY = "asdf";
@@ -18,6 +20,7 @@ beforeAll(async () => {
 
 // Clean database before each test.
 beforeEach(async () => {
+  jest.clearAllMocks();
   const collections = await mongoose.connection.db.collections();
 
   await Promise.all(collections.map((collection) => collection.deleteMany({})));

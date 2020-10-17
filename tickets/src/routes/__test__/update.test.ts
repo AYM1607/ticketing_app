@@ -1,8 +1,10 @@
 import request from "supertest";
 import mongoose from "mongoose";
+import { Subjects } from "@aymticketing/common";
 
 import { app } from "../../app";
 import { getMockCookie } from "../../test/helpers";
+import { natsWrapper } from "../../nats_wrapper";
 
 it("Returns a 404 if the provided id does not exist", async () => {
   const id = new mongoose.Types.ObjectId().toHexString();
@@ -83,4 +85,28 @@ it("Updates the ticket provided valid inputs", async () => {
 
   expect(newTicketResponse.body.title).toEqual(newTitle);
   expect(newTicketResponse.body.price).toEqual(newPrice);
+});
+
+it("Publisher an event when a ticket is successfully updated", async () => {
+  const cookie = getMockCookie();
+
+  const response = await request(app)
+    .post("/api/tickets")
+    .set("Cookie", cookie)
+    .send({ title: "A valid title", price: 20 })
+    .expect(201);
+
+  const newTitle = "An updated title";
+  const newPrice = 100;
+  await request(app)
+    .put(`/api/tickets/${response.body.id}`)
+    .set("Cookie", cookie)
+    .send({ title: newTitle, price: newPrice })
+    .expect(200);
+
+  expect(natsWrapper.client.publish).toHaveBeenLastCalledWith(
+    Subjects.TicketUpdated,
+    expect.anything(),
+    expect.anything()
+  );
 });

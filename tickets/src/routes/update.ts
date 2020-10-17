@@ -8,6 +8,8 @@ import {
 } from "@aymticketing/common";
 
 import { Ticket } from "../models/ticket";
+import { TicketUpdatedPublisher } from "../events/publishers/ticket_updated_publisher";
+import { natsWrapper } from "../nats_wrapper";
 
 const router = express.Router();
 
@@ -35,7 +37,12 @@ router.put(
     const { title, price } = req.body;
     ticket.set({ title, price });
     await ticket.save();
-
+    await new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+    });
     res.send(ticket);
   }
 );
